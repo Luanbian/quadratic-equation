@@ -4,7 +4,7 @@ mod calc_vertex;
 mod render;
 
 fn main() {
-    let mut terms: [i32; 3] = [0, 0, 0];
+    let mut terms: [f64; 3] = [0.0, 0.0, 0.0];
 
     let mut counter: u32 = 0;
     loop {
@@ -15,7 +15,7 @@ fn main() {
             .read_line(&mut input)
             .expect("Falha ao ler o input");
 
-        let converted_number: i32 = input
+        let converted_number: f64 = input
             .trim()
             .parse()
             .expect("Por favor, insira um numero válido");
@@ -31,8 +31,8 @@ fn main() {
         }
     }
 
-    let roots: (i32, i32) = calc_root::main(terms);
-    let vertex: (i32, i32) = calc_vertex::main(terms);
+    let roots: (f64, f64) = calc_root::main(terms);
+    let vertex: (f64, f64) = calc_vertex::main(terms);
 
     match render::run(terms[0], terms[1], terms[2], roots, vertex) {
         Ok(_) => (),

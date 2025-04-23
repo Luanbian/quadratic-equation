@@ -6,13 +6,13 @@ use plotters::{
 };
 use types::{ChartResult, ChartType, ErrorType};
 
-pub fn run(a: i32, b: i32, c: i32, roots: (i32, i32), vertex: (i32, i32)) -> Result<(), ErrorType> {
+pub fn run(a: f64, b: f64, c: f64, roots: (f64, f64), vertex: (f64, f64)) -> Result<(), ErrorType> {
     let mut chart = draw_window()?;
 
     let quadratic = |x: f64| {
-        let a = a as f64;
-        let b = b as f64;
-        let c = c as f64;
+        let a = a;
+        let b = b;
+        let c = c;
         a * x * x + b * x + c
     };
 
@@ -28,7 +28,7 @@ pub fn run(a: i32, b: i32, c: i32, roots: (i32, i32), vertex: (i32, i32)) -> Res
 }
 
 fn draw_window() -> ChartResult {
-    let root = BitMapBackend::new("scatter_plot.png", (600, 600)).into_drawing_area();
+    let root = BitMapBackend::new("scatter_plot.png", (800, 800)).into_drawing_area();
     root.fill(&WHITE)?;
 
     let chart = ChartBuilder::on(&root)
@@ -42,10 +42,7 @@ fn draw_window() -> ChartResult {
 }
 
 fn spotlight_x_y_axle(chart: &mut ChartType) -> Result<(), ErrorType> {
-    // Eixo X
     chart.draw_series(LineSeries::new((-10..=10).map(|x| (x as f64, 0.0)), &RED))?;
-
-    // Eixo Y
     chart.draw_series(LineSeries::new((-10..=10).map(|y| (0.0, y as f64)), &RED))?;
 
     Ok(())
@@ -65,8 +62,8 @@ fn draw_curve(chart: &mut ChartType, quadratic: impl Fn(f64) -> f64) -> Result<(
 
 fn spotlight_roots_vertex(
     chart: &mut ChartType,
-    roots: (i32, i32),
-    vertex: (i32, i32),
+    roots: (f64, f64),
+    vertex: (f64, f64),
 ) -> Result<(), ErrorType> {
     chart.draw_series(PointSeries::of_element(
         vec![
